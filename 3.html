@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới thiệu nhóm 4</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Music player */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            animation: slideInRight 1s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(200px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .music-toggle {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .music-info {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .music-wave {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+            height: 20px;
+        }
+
+        .music-wave span {
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        .music-wave span:nth-child(1) { animation-delay: 0s; }
+        .music-wave span:nth-child(2) { animation-delay: 0.1s; }
+        .music-wave span:nth-child(3) { animation-delay: 0.2s; }
+        .music-wave span:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes wave {
+            0%, 100% { height: 30%; }
+            50% { height: 100%; }
+        }
+
+        .music-wave.paused span {
+            animation: none;
+            height: 30%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            animation: particleFloat 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated gradient border for header */
+        header::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff, #00ffff);
+            border-radius: 20px;
+            z-index: -1;
+            animation: gradientRotate 4s linear infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes gradientRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease, float 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        /* Floating animation for title */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Glowing text effect */
+        header h1::after {
+            content: '🎓 Không Tin Đàn Bà';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            filter: blur(15px);
+            opacity: 0.5;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeIn 0.8s ease;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        /* Animated gradient border */
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
+            background-size: 200% 100%;
+            animation: borderSlide 3s linear infinite;
+        }
+
+        @keyframes borderSlide {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        /* Glow effect on hover */
+        .member-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.3), transparent);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            pointer-events: none;
+        }
+
+        .member-card:hover {
+            transform: translateY(-15px) rotateX(5deg) scale(1.02);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4), 
+                        0 0 30px rgba(118, 75, 162, 0.3);
+        }
+
+        .member-card:hover::after {
+            width: 400px;
+            height: 400px;
+        }
+
+        .member-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.4s ease;
+            position: relative;
+            animation: avatarGlow 2s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Rotating border effect */
+        .member-avatar::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes avatarGlow {
+            0%, 100% { box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 8px 30px rgba(118, 75, 162, 0.6); }
+        }
+
+        .member-card:hover .member-avatar {
+            transform: scale(1.1) rotate(360deg);
+        }
+
+        .member-card:hover .member-avatar::before {
+            opacity: 1;
+        }
+
+        .member-name {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .member-role {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .member-info {
+            margin: 20px 0;
+        }
+
+        .info-item {
+            margin: 12px 0;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            min-width: 100px;
+            display: inline-block;
+        }
+
+        .info-value {
+            color: #666;
+            flex: 1;
+        }
+
+        .strength-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 5px 5px 5px 0;
+            font-size: 0.9em;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: tagPulse 2s ease-in-out infinite;
+        }
+
+        /* Shimmer effect */
+        .strength-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .strength-tag:hover::before {
+            left: 100%;
+        }
+
+        .strength-tag:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.5);
+        }
+
+        @keyframes tagPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .quote {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 15px 20px;
+            border-left: 4px solid #667eea;
+            margin: 15px 0;
+            font-style: italic;
+            color: #555;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Animated highlight effect */
+        .quote::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+        }
+
+        .member-card:hover .quote::before {
+            width: 100%;
+        }
+
+        .quote::after {
+            content: '"';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 4em;
+            color: rgba(102, 126, 234, 0.1);
+            font-style: normal;
+        }
+
+        .quote:hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ripple effect */
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .social-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* Individual button glow animations */
+        @keyframes facebookGlow {
+            0%, 100% { box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4); }
+            50% { box-shadow: 0 4px 25px rgba(24, 119, 242, 0.6), 0 0 30px rgba(24, 119, 242, 0.3); }
+        }
+
+        @keyframes zaloGlow {
+            0%, 100% { box-shadow: 0 4px 15px rgba(0, 104, 255, 0.4); }
+            50% { box-shadow: 0 4px 25px rgba(0, 104, 255, 0.6), 0 0 30px rgba(0, 104, 255, 0.3); }
+        }
+
+        @keyframes instagramGlow {
+            0%, 100% { box-shadow: 0 4px 15px rgba(240, 148, 51, 0.4); }
+            50% { box-shadow: 0 4px 25px rgba(240, 148, 51, 0.6), 0 0 30px rgba(240, 148, 51, 0.3); }
+        }
+
+        .facebook:hover { animation: facebookGlow 1.5s ease-in-out infinite; }
+        .zalo:hover { animation: zaloGlow 1.5s ease-in-out infinite; }
+        .instagram:hover { animation: instagramGlow 1.5s ease-in-out infinite; }
+
+        .facebook {
+            background: linear-gradient(135deg, #1877f2, #0d5fca);
+        }
+
+        .zalo {
+            background: linear-gradient(135deg, #0068ff, #0052cc);
+        }
+
+        .instagram {
+            background: linear-gradient(135deg, #f09433, #dc2743, #cc2366, #bc1888);
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease;
+        }
+
+        /* Sparkle effect */
+        footer::before {
+            content: '✨';
+            position: absolute;
+            font-size: 2em;
+            animation: sparkle 3s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { 
+                opacity: 0;
+                transform: translate(20%, 20%) scale(0);
+            }
+            50% { 
+                opacity: 1;
+                transform: translate(80%, 50%) scale(1);
+            }
+        }
+
+        footer h3 {
+            animation: float 3s ease-in-out infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Music player -->
+    <div class="music-player">
+        <button class="music-toggle" id="musicToggle">🎵</button>
+        <div class="music-info">
+            <div style="font-size: 0.9em;">Love Is Remake</div>
+            <div class="music-wave" id="musicWave">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden audio element -->
+    <audio id="bgMusic" loop>
+        <!-- Using a royalty-free background music URL -->
+        <source src="loveisremake.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <header>
+            <h1>🔥 Không Tin Đàn Bà 🔥</h1>
+            <p style="font-size: 0.9em; opacity: 0.85; font-style: italic; margin-top: 5px;">xinh gái thì tin😍</p>
+        </header>
+
+        <div class="members-grid">
+            <!-- Member 1 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <div class="member-avatar">
+                        <img src="avatar/nhatanh.jpg" alt="Nguyễn Đỗ Nhật Anh">
+                    </div>
+                    <h2 class="member-name">Nguyễn Đỗ Nhật Anh</h2>
+                    <p class="member-role">Học sinh</p>
+                </div>
+                
+                <div class="member-info">
+                    <div class="info-item">
+                        <span class="info-label">📅 Tuổi:</span>
+                        <span class="info-value">17 tuổi</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">❤️ Sở thích:</span>
+                        <span class="info-value">Lập trình, Chơi game, nghe nhạc</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🎯 Tính cách:</span>
+                        <span class="info-value">Năng động, sáng tạo, có trách nhiệm</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🚀 Mục tiêu:</span>
+                        <span class="info-value">Đẹp zai nhất Bách Khoa</span>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    💬 "im so scared to fall in love but if its you then i'll try."
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">💪 Điểm mạnh:</span>
+                    <div class="info-value">
+                        <span class="strength-tag">Lập trình</span>
+                        <span class="strength-tag">Tư duy logic</span>
+                        <span class="strength-tag">Giao tiếp</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com/ngminhnhattttt/" class="social-btn facebook" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+                    <a href="https://www.instagram.com/ngdona2008/" class="social-btn zalo">💬 Zalo</a>
+                    <a href="#" class="social-btn instagram" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
+                </div>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <div class="member-avatar">
+                        <img src="avatar/duy.jpg" alt="Nông Quốc Duy">
+                    </div>
+                    <h2 class="member-name">Nông Quốc Duy</h2>
+                    <p class="member-role">Học sinh</p>
+                </div>
+                
+                <div class="member-info">
+                    <div class="info-item">
+                        <span class="info-label">📅 Tuổi:</span>
+                        <span class="info-value">17 tuổi</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">❤️ Sở thích:</span>
+                        <span class="info-value">Calisthenic, chơi gay🥵</span></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🎯 Tính cách:</span>
+                        <span class="info-value"> Hòa đồng, vui vẻ, thân thiện</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🚀 Mục tiêu:</span>
+                        <span class="info-value">Đỗ đại học, lấy vợ, mua xe, xây nhà</span>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    💬 "em sure như công chính baby à"
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">💪 Điểm mạnh:</span>
+                    <div class="info-value">
+                        <span class="strength-tag">Thiết kế</span>
+                        <span class="strength-tag">Không có điểm yếu</span>
+                        <span class="strength-tag">Sáng tạo</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com/quoc.duy.692732/about" class="social-btn facebook" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+                    <a href="#" class="social-btn zalo">💬 Zalo</a>
+                    <a href="#" class="social-btn instagram" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
+                </div>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <div class="member-avatar">
+                        <img src="avatar/an.jpg" alt="Nguyễn Bảo An">
+                    </div>
+                    <h2 class="member-name">Nguyễn Bảo An</h2>
+                    <p class="member-role">Học sinh</p>
+                </div>
+                
+                <div class="member-info">
+                    <div class="info-item">
+                        <span class="info-label">📅 Tuổi:</span>
+                        <span class="info-value">17 tuổi</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">❤️ Sở thích:</span>
+                        <span class="info-value">mèo và em</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🎯 Tính cách:</span>
+                        <span class="info-value">Hài hước, tình cảm, nhây</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🚀 Mục tiêu:</span>
+                        <span class="info-value">1 nhà 3 con vợ chồng hạnh phúc</span>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    💬 "Music is the universal language of mankind"
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">💪 Điểm mạnh:</span>
+                    <div class="info-value">
+                        <span class="strength-tag">Tấu hài</span>
+                        <span class="strength-tag">Sáng tạo nội dung</span>
+                        <span class="strength-tag">Không có điểm yếu</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com/an.ngyen.269640" class="social-btn facebook" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+                    <a href="#" class="social-btn zalo">💬 Zalo</a>
+                    <a href="https://www.instagram.com/ann.gyen/" class="social-btn instagram" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
+                </div>
+            </div>
+
+            <!-- Member 4 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <div class="member-avatar">
+                        <img src="avatar/khang.jpg" alt="Huỳnh Chấn Khang">
+                    </div>
+                    <h2 class="member-name">Huỳnh Chấn Khang</h2>
+                    <p class="member-role">Học sinh</p>
+                </div>
+                
+                <div class="member-info">
+                    <div class="info-item">
+                        <span class="info-label">📅 Tuổi:</span>
+                        <span class="info-value">17 tuổi</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">❤️ Sở thích:</span>
+                        <span class="info-value">Xem amine (wibu chúa)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🎯 Tính cách:</span>
+                        <span class="info-value">Thông minh, chăm chỉ, chu đáo</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🚀 Mục tiêu:</span>
+                        <span class="info-value">Tán đổ crush</span>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    💬 "Tôi không bot,ok?"
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">💪 Điểm mạnh:</span>
+                    <div class="info-value">
+                        <span class="strength-tag">Học thuật</span>
+                        <span class="strength-tag">Nhiều điểm yếu</span>
+                        <span class="strength-tag">Wibu</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com/khangg.huynh.502108" class="social-btn facebook" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+                    <a href="#" class="social-btn zalo">💬 Zalo</a>
+                    <a href="#" class="social-btn instagram" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
+                </div>
+            </div>
+
+            <!-- Member 5 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <div class="member-avatar">
+                        <img src="avatar/hoang.jpg" alt="Nguyễn Đức Hoàng">
+                    </div>
+                    <h2 class="member-name">Nguyễn Đức Hoàng</h2>
+                    <p class="member-role">Học sinh</p>
+                </div>
+                
+                <div class="member-info">
+                    <div class="info-item">
+                        <span class="info-label">📅 Tuổi:</span>
+                        <span class="info-value">17 tuổi</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">❤️ Sở thích:</span>
+                        <span class="info-value">Hát ,chơi nhạc cụ</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🎯 Tính cách:</span>
+                        <span class="info-value"> hướng nội</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🚀 Mục tiêu:</span>
+                        <span class="info-value">mua được đàn guitar acoustic 3 củ</span>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    💬 "Trong các cách học phải lấy tự học làm cốt" - trích chủ tịch Hồ Chí Minh"
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">💪 Điểm mạnh:</span>
+                    <div class="info-value">
+                        <span class="strength-tag">Tự học tốt</span>
+                        <span class="strength-tag">Quản lí thời gian</span>
+                        <span class="strength-tag">Nhiệt tình</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=100094678193303" class="social-btn facebook" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+                    <a href="#" class="social-btn zalo">💬 Zalo</a>
+                    <a href="https://www.instagram.com/ng_dhoang512" class="social-btn instagram" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
+                </div>
+            </div>
+
+            <!-- Member 6 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <div class="member-avatar">
+                        <img src="avatar/phuc.png" alt="Mai Lâm Phúc">
+                    </div>
+                    <h2 class="member-name">Mai Lâm Phúc</h2>
+                    <p class="member-role">Học sinh</p>
+                </div>
+                
+                <div class="member-info">
+                    <div class="info-item">
+                        <span class="info-label">📅 Tuổi:</span>
+                        <span class="info-value">17 tuổi</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">❤️ Sở thích:</span>
+                        <span class="info-value">Đọc sách, nghe đài</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🎯 Tính cách:</span>
+                        <span class="info-value">Vui vẻ, tham vọng, 🌚</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🚀 Mục tiêu:</span>
+                        <span class="info-value">Thành công trong cuộc sống để giúp đỡ nhau</span>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    💬 "Tình bạn, hóa ra, không phải là những lời hứa lớn lao, mà là những khoảnh khắc giản dị, khi ta biết rằng mình không hề đơn độc"
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">💪 Điểm mạnh:</span>
+                    <div class="info-value">
+                        <span class="strength-tag">Năng động</span>
+                        <span class="strength-tag">Thích khám phá</span>
+                        <span class="strength-tag">Tà...</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com/lan.huong.mai.272461" class="social-btn facebook" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+                    <a href="#" class="social-btn zalo">💬 Zalo</a>
+                    <a href="#" class="social-btn instagram" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
+                </div>
+            </div>
+
+            <!-- Member 7 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <div class="member-avatar">
+                        <img src="avatar/duc.jpg" alt="Nguyễn Thanh Đức">
+                    </div>
+                    <h2 class="member-name">Nguyễn Thanh Đức</h2>
+                    <p class="member-role">Fitness Coach | Motivator</p>
+                </div>
+                
+                <div class="member-info">
+                    <div class="info-item">
+                        <span class="info-label">📅 Tuổi:</span>
+                        <span class="info-value">17 tuổi</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">❤️ Sở thích:</span>
+                        <span class="info-value">Làm toán, chơi game</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🎯 Tính cách:</span>
+                        <span class="info-value">Hướng nội, động viên, kiên trì</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🚀 Mục tiêu:</span>
+                        <span class="info-value">Đỗ đại học</span>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    💬 "No pain, no gain - Push your limits everyday"
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">💪 Điểm mạnh:</span>
+                    <div class="info-value">
+                        <span class="strength-tag">Tư duy logic</span>
+                        <span class="strength-tag">Kỷ luật</span>
+                        <span class="strength-tag">Tự học</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com/nguyen.thanh.uc.516609" class="social-btn facebook" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+                    <a href="#" class="social-btn zalo">💬 Zalo</a>
+                    <a href="#" class="social-btn instagram" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
+                </div>
+            </div>
+
+            <!-- Member 8 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <div class="member-avatar">
+                        <img src="avatar8.jpg" alt="Trần Anh Hải">
+                    </div>
+                    <h2 class="member-name">Trần Anh Hải</h2>
+                    <p class="member-role">Học sinh</p>
+                </div>
+                
+                <div class="member-info">
+                    <div class="info-item">
+                        <span class="info-label">📅 Tuổi:</span>
+                        <span class="info-value">17 tuổi</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">❤️ Sở thích:</span>
+                        <span class="info-value">Chơi game, nghe nhạc</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🎯 Tính cách:</span>
+                        <span class="info-value">hay suy nghĩ, trầm</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🚀 Mục tiêu:</span>
+                        <span class="info-value">Sống độc lập</span>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    💬 "Hiểu mình trước khi hiểu người khác"
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">💪 Điểm mạnh:</span>
+                    <div class="info-value">
+                        <span class="strength-tag">Gaming</span>
+                        <span class="strength-tag">Tự học</span>
+                        <span class="strength-tag">Quan sát tốt</span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com/tran.a.hai.56" class="social-btn facebook" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+                    <a href="#" class="social-btn zalo">💬 Zalo</a>
+                    <a href="#" class="social-btn instagram" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <h3>🎓 Nhóm 4,Lớp 12A8 - THPT Yên Thế</h3>
+            <p style="margin-top: 10px;">Tình bạn - Đoàn kết - Phát triển</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2026 Không Tin Đàn Bà | Coder : Nhật Anh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Music player functionality
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicWave = document.getElementById('musicWave');
+        let isPlaying = false;
+
+        // Set volume
+        bgMusic.volume = 0.3;
+
+        // Toggle music on button click
+        musicToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicToggle.innerHTML = '🎵';
+                musicWave.classList.add('paused');
+                isPlaying = false;
+            } else {
+                bgMusic.play();
+                musicToggle.innerHTML = '⏸️';
+                musicWave.classList.remove('paused');
+                isPlaying = true;
+            }
+        });
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.member-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            card.style.transitionDelay = `${index * 0.1}s`;
+            observer.observe(card);
+        });
+
+        // Add click effect to social buttons
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Add 3D tilt effect on mouse move
+        document.querySelectorAll('.member-card').forEach(card => {
+            card.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px) scale(1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+
+        // Add floating stars effect
+        function createStar() {
+            const star = document.createElement('div');
+            star.innerHTML = '⭐';
+            star.style.position = 'fixed';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = '-50px';
+            star.style.fontSize = Math.random() * 20 + 10 + 'px';
+            star.style.opacity = Math.random() * 0.5 + 0.3;
+            star.style.pointerEvents = 'none';
+            star.style.zIndex = '0';
+            star.style.animation = `fall ${Math.random() * 3 + 5}s linear`;
+            
+            document.body.appendChild(star);
+            
+            setTimeout(() => {
+                star.remove();
+            }, 8000);
+        }
+
+        // CSS for falling animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create stars periodically
+        setInterval(createStar, 3000);
+
+        // Add ripple effect on click
+        document.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.style.position = 'fixed';
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            ripple.style.width = '0';
+            ripple.style.height = '0';
+            ripple.style.borderRadius = '50%';
+            ripple.style.border = '2px solid rgba(255, 255, 255, 0.5)';
+            ripple.style.pointerEvents = 'none';
+            ripple.style.zIndex = '9999';
+            ripple.style.animation = 'rippleEffect 0.8s ease-out';
+            
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 800);
+        });
+
+        // Add ripple animation
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            @keyframes rippleEffect {
+                to {
+                    width: 100px;
+                    height: 100px;
+                    margin-left: -50px;
+                    margin-top: -50px;
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+    </script>
+</body>
+</html>
